@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Orders</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f9;
+      margin: 0;
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    th, td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+    th {
+      background: #333;
+      color: #fff;
+    }
+    select {
+      padding: 5px;
+    }
+    button {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 4px;
+      background: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h2>Admin Dashboard - Manage Orders</h2>
+
+  <table id="ordersTable">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Style</th>
+        <th>Color</th>
+        <th>Phone</th>
+        <th>Status</th>
+        <th>Update</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    async function fetchOrders() {
+      const res = await fetch("/admin/orders");
+      const data = await res.json();
+
+      const tbody = document.querySelector("#ordersTable tbody");
+      tbody.innerHTML = "";
+
+      data.orders.forEach(order => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+          <td>${order.username}</td>
+          <td>${order.style || "-"}</td>
+          <td>${order.color || "-"}</td>
+          <td>${order.phone || "-"}</td>
+          <td>
+            <select id="status-${order._id}">
+              <option ${order.status === "Order Received" ? "selected" : ""}>Order Received</option>
+              <option ${order.status === "In Production" ? "selected" : ""}>In Production</option>
+              <option ${order.status === "Ready to Delivery" ? "selected" : ""}>Ready to Delivery</option>
+            </select>
+          </td>
+          <td><button onclick="updateStatus('${order._id}')">Save</button></td>
+        `;
+
+        tbody.appendChild(row);
+      });
+    }
+
+    async function updateStatus(orderId) {
+      const newStatus = document.getElementById(`status-${orderId}`).value;
+
+      const res = await fetch(`/admin/update_status/${orderId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: newStatus })
+      });
+
+      const result = await res.json();
+      if (result.success) {
+        alert("Order status updated to: " + newStatus);
+      } else {
+        alert("Error: " + result.msg);
+      }
+    }
+
+    fetchOrders();
+  </script>
+</body>
+</html>

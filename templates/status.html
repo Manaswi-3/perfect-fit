@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Status - Perfect Fit</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #ff4081 0%, #e91e63 100%);
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #fff;
+      padding: 15px 20px;
+      border-bottom: 2px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      color: #333;
+    }
+
+    nav a {
+      margin-left: 15px;
+      text-decoration: none;
+      font-weight: bold;
+      color: #555;
+    }
+
+    nav a.active {
+      color: #e91e63;
+    }
+
+    .container {
+      background: #fff;
+      padding: 40px 50px;
+      border-radius: 15px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      max-width: 95%;
+      margin: 30px auto;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      font-weight: bold;
+      color: #333;
+      text-align: center;
+    }
+
+    .status-card {
+      background: #f9fafb;
+      border-left: 4px solid #ff4081;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+
+    .status-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .status-details {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .detail {
+      flex: 1;
+      min-width: 120px;
+    }
+
+    .detail-label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #666;
+    }
+
+    .detail-value {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      background-color: #fce4ec;
+      color: #e91e63;
+      margin-top: 8px;
+    }
+
+    .status-dot {
+      width: 0.5rem;
+      height: 0.5rem;
+      background-color: #ff4081;
+      border-radius: 50%;
+      margin-right: 0.5rem;
+    }
+
+    .no-orders {
+      text-align: center;
+      font-size: 1rem;
+      color: #666;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Welcome, {{ username }}</h1>
+    <nav>
+      <a href="{{ url_for('guide') }}">Guide</a>
+      <a href="{{ url_for('sizeinfo') }}">Size Info</a>
+      <a href="{{ url_for('status_page') }}" class="active">Status</a>
+      <a href="{{ url_for('auth.logout') }}">Logout</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h2>Order Status</h2>
+    <div id="statusContainer">
+    </div>
+  </div>
+
+  <script>
+    async function loadStatus() {
+      const response = await fetch('/my_status');
+      const data = await response.json();
+      const container = document.getElementById('statusContainer');
+      container.innerHTML = "";
+
+      if (data.orders && data.orders.length > 0) {
+        data.orders.forEach((order, index) => {
+          const card = document.createElement('div');
+          card.className = "status-card";
+          card.innerHTML = `
+            <h3>Order #${index + 1}</h3>
+            <div class="status-details">
+              <div class="detail">
+                <div class="detail-label">Waist</div>
+                <div class="detail-value">${order.waist || '-'}</div>
+              </div>
+              <div class="detail">
+                <div class="detail-label">Color</div>
+                <div class="detail-value">${order.color || '-'}</div>
+              </div>
+              <div class="detail">
+                <div class="detail-label">Style</div>
+                <div class="detail-value">${order.style || '-'}</div>
+              </div>
+              <div class="detail">
+                <div class="detail-label">Phone</div>
+                <div class="detail-value">${order.phone || '-'}</div>
+              </div>
+            </div>
+            <div class="status-badge">
+              <div class="status-dot"></div>
+              ${order.status || 'Pending'}
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      } else {
+        container.innerHTML = "<p class='no-orders'>No orders found yet.</p>";
+      }
+    }
+
+    loadStatus();
+  </script>
+</body>
+</html>

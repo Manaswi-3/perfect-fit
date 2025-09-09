@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfect Fit - About</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="about">
+
+  <header>
+    <h1>Perfect Fit</h1>
+    <nav>
+      <a href="{{ url_for('index') }}">Home</a>
+      <a href="{{ url_for('about') }}" class="active">About</a>
+      <a href="{{ url_for('contact') }}" >Contact</a>
+      <a href="{{ url_for('auth.login') }}">Login</a>
+    </nav>
+  </header>
+
+  
+  <section class="about-section">
+    <div class="about-container">
+      <h1>Why <span class="highlight">Perfect Fit</span>?</h1>
+      <p>
+        Finding the right pair of pants has always been a challenge. Perfect Fit is here to change that. 
+        By using your exact body measurements, we design and deliver pants tailored exclusively for you. 
+        Whether it's office wear, casual jeans, or formal trousers, we ensure your fit is always perfect.
+      </p>
+
+      <div class="highlights-section">
+        <div class="highlight-item">
+          <span class="highlight-text">Custom Tailored to Your Measurements</span>
+        </div>
+        <div class="highlight-item">
+          <span class="highlight-text">Premium Quality Fabrics</span>
+        </div>
+        <div class="highlight-item">
+          <span class="highlight-text">Style & Comfort Guaranteed</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

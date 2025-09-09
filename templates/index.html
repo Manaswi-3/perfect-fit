@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfect Fit - Home</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="home">
+ 
+  <header>
+    <h1>Perfect Fit</h1>
+    <nav>
+      <a href="{{ url_for('index') }}" class="active">Home</a>
+      <a href="{{ url_for('about') }}">About</a>
+      <a href="{{ url_for('contact') }}">Contact</a>
+      <a href="{{ url_for('auth.login') }}">Login</a>
+    </nav>
+  </header>
+
+  <section class="home-section">
+    <div class="welcome-container">
+      <h1>Welcome to <span class="brand-name">Perfect Fit</span></h1>
+      <p>Your personalized clothing experience</p>
+    </div>
+  </section>
+</body>
+</html>

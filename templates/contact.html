@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfect Fit - Contact</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="contact">
+  <header>
+    <h1>Perfect Fit</h1>
+    <nav>
+      <a href="{{ url_for('index') }}">Home</a>
+      <a href="{{ url_for('about') }}">About</a>
+      <a href="{{ url_for('contact') }}" class="active">Contact</a>
+      <a href="{{ url_for('auth.login') }}">Login</a>
+    </nav>
+  </header>
+
+   
+  <section class="contact-container">
+  
+    <div class="contact-form">
+      <h2>Get in touch</h2>
+      <form action="/feedback" method="POST">
+        <div class="input-row">
+          <input type="text" name="name" placeholder="Name" required>
+          <input type="email" name="email" placeholder="Email" required>
+        </div>
+        <input type="text" name="subject" placeholder="Subject" required>
+        <textarea name="message" placeholder="Message" rows="6" required></textarea>
+        <button type="submit" class="btn">Send Message</button>
+      </form>
+    </div>
+
+    <div class="divider"></div>
+    
+   
+    <div class="contact-info">
+      <h2>Contact us</h2>
+      <p><strong>☎ Phone:</strong> +91 7995985301</p>
+      <p><strong>✉ Email:</strong> support@perfectfit.com</p>
+      <p><strong>Website:</strong> www.perfectfit.com</p>
+    </div>
+  </section>
+</body>
+</html>
